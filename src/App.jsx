@@ -63,16 +63,16 @@ function App() {
   useEffect(() => {
     if (palabraAdivinada.length > 0 && !palabraAdivinada.includes("_")) {
       setMensaje({ tipo: "ganar", texto: "¡Felicidades, ganaste!" });
-      iniciar();
+      
     }
     if (vidas === 0) {
       setMensaje({
         tipo: "perder",
         texto: `Perdiste. La palabra era "${palabraSecreta}".`,
       });
-      iniciar();
+      
     }
-  }, [palabraAdivinada, vidas]);
+  }, [palabraAdivinada, vidas,palabraSecreta]);
 
 
   // Dibujo del ahorcado
@@ -165,7 +165,7 @@ function App() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 p-4">Juego del ahorcado</h1>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`absolute top-1 right-1 md:top-4 md:right-4 px-2 py-1 rounded-md text-sm font-semibold transition ${darkMode
+              className={`absolute top-1 right-1 md:top-4 md:right-4 px-2 py-1 border rounded-md text-sm font-semibold transition ${darkMode
                 ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
                 : "bg-gray-200 text-gray-800 hover:bg-gray-300"
                 }`}
@@ -183,7 +183,7 @@ function App() {
           <section className="flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full ">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`absolute top-1 right-1 md:top-4 md:right-4 px-3 py-1 rounded-md text-sm font-semibold transition ${darkMode
+              className={`absolute top-1 right-1 md:top-4 md:right-4 px-3 py-1 border rounded-md text-sm font-semibold transition ${darkMode
                 ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
                 : "bg-gray-200 text-gray-800 hover:bg-gray-300"
                 }`}
@@ -195,13 +195,7 @@ function App() {
 
               className="w-[90%] max-w-md aspect-[5/4] border border-gray-300 rounded-lg bg-gray-500 mb-4 w-full max-w-md p-2"
             />
-            {mensaje && mensaje.tipo === "error" && (
-              <div
-                className="mb-4 p-3 bg-yellow-200 text-yellow-800 rounded-lg border border-yellow-400 w-3/4 sm:w-1/2 mx-auto"
-              >
-                {mensaje.texto}
-              </div>
-            )}
+            
             <div className="text-base sm:text-lg mb-4 w-full">
               <div className="text-2xl sm:text-3xl tracking-widest font-bold mb-4 break-words">
                 {palabraAdivinada.join(" ")}
@@ -224,9 +218,9 @@ function App() {
                 ¡Adivinar!
               </button>
               {/* Barra de vidas */}
-              <div className="w-3/4 sm:w-1/2 bg-gray-300 rounded-full h-4 mt-5 overflow-hidden">
+              <div className="   bg-gray-300 rounded-full h-4 mt-5 overflow-hidden">
                 <div
-                  className={`h-full transition-all duration-500 ${vidas > 3 ? "bg-green-500" : vidas > 1 ? "bg-yellow-500" : "bg-red-600"
+                  className={` h-full transition-all duration-500 ${vidas > 3 ? "bg-green-500" : vidas > 1 ? "bg-yellow-500" : "bg-red-600"
                     }`}
                   style={{ width: `${(vidas / 6) * 100}%` }}
                 ></div>
@@ -252,12 +246,31 @@ function App() {
                 }`}
               >
                 <h2 className="text-2xl font-bold mb-4">{mensaje.texto}</h2>
-                <button
-                  onClick={iniciar}
-                  className="bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition"
+              {mensaje.tipo === "error" && ( 
+                  <button
+                  onClick={() => setMensaje(null)}
+                  className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
                 >
-                  Jugar de nuevo
+                  Cerrar
                 </button>
+              )} 
+              {mensaje.tipo === "ganar" && ( 
+                  <button
+                  onClick={iniciar }
+                  className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                >
+                  jugar de nuevo
+                </button>
+              )} 
+              {mensaje.tipo === "perder" && ( 
+                  <button
+                  onClick={iniciar }
+                  className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                >
+                  jugar de nuevo
+                </button>
+              )} 
+                
               </div>
             </div>
           )}
