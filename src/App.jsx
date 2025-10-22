@@ -161,8 +161,8 @@ function App() {
       <div className={`font-sans min-h-screen w-full relative bg-cover bg-center ${darkMode ? "bg-gray-900 text-white" : "bg-gray-200 text-black"
         }`}>
         {pantalla === "inicio" ? (
-          <section className='flex flex-col items-center p-2 w-full'>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 p-4">Juego del ahorcado</h1>
+          <section className='flex flex-col items-center text-center p-2 w-full'>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 mt-3 text-center p-4">Juego del ahorcado</h1>
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`absolute top-1 right-1 md:top-4 md:right-4 px-2 py-1 border rounded-md text-sm font-semibold transition ${darkMode
@@ -193,11 +193,11 @@ function App() {
             <canvas
               ref={canvasRef}
 
-              className="w-[90%] max-w-md aspect-[5/4] border border-gray-300 rounded-lg bg-gray-500 mb-4 w-full max-w-md p-2"
+              className="w-[90%] max-w-md aspect-[5/4] border border-gray-300 rounded-lg bg-gray-500 mb-2 w-full max-w-md p-2 mt-4"
             />
             
-            <div className="text-base sm:text-lg mb-4 w-full">
-              <div className="text-2xl sm:text-3xl tracking-widest font-bold mb-4 break-words">
+            <div className="text-base sm:text-lg mb-2 w-full">
+              <div className="text-2xl sm:text-3xl tracking-widest font-bold mb-2 break-words">
                 {palabraAdivinada.join(" ")}
               </div>
               <label htmlFor="adivina" className="block mb-2 text-gray-700">
@@ -209,27 +209,27 @@ function App() {
                 maxLength={1}
                 value={inputLetra}
                 onChange={(e) => setInputLetra(e.target.value)}
-                className="h-10 w-12 sm:w-14 text-center text-2xl rounded-xl border-2 border-blue-500 bg-blue-400 focus:border-blue-400 focus:outline-none mb-3"
+                className="h-10 w-12 sm:w-14 text-center text-2xl rounded-xl border-2 border-blue-500 bg-blue-400 focus:border-blue-400 focus:outline-none mb-2"
               />
               <button
                 onClick={comprobar}
-                className="block mx-auto mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-lg hover:bg-indigo-700 transition w-1/2 sm:w-auto"
+                className="block mx-auto mt-2 px-3 py-2 bg-indigo-600 text-white rounded-lg text-lg hover:bg-indigo-700 transition w-1/2 sm:w-auto"
               >
                 ¡Adivinar!
               </button>
               {/* Barra de vidas */}
-              <div className="   bg-gray-300 rounded-full h-4 mt-5 overflow-hidden">
+              <div className="bg-gray-300 rounded-full h-3 mt-3 overflow-hidden">
                 <div
                   className={` h-full transition-all duration-500 ${vidas > 3 ? "bg-green-500" : vidas > 1 ? "bg-yellow-500" : "bg-red-600"
                     }`}
                   style={{ width: `${(vidas / 6) * 100}%` }}
                 ></div>
               </div>
-              <p className="mt-2 font-semibold">Vidas: {vidas}/6</p>
+              <p className="font-semibold">Vidas: {vidas}/6</p>
             </div>
             <button
               onClick={() => setPantalla("inicio")}
-              className="mt-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800 text-sm sm:text-base"
+              className="mt-2 px-3 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800 text-sm sm:text-base"
             >
               Volver al inicio
             </button>
