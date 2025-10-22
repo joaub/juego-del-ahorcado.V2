@@ -15,9 +15,10 @@ function App() {
 
   // Inicializa el juego
   const iniciar = () => {
-    const palabra = palabras[Math.floor(Math.random() * palabras.length)];
+    const palabra = palabras[Math.floor(Math.random() * palabras.length)].toLowerCase();
     setPalabraSecreta(palabra);
-    setPalabraAdivinada(Array(palabra.length).fill("_"));
+    const palabraVisible = palabra.split("").map(c => (c === " " ? " " : "_"));
+    setPalabraAdivinada(palabraVisible);
     setVidas(6);
     setLetrasIngresadas(new Set());
     setMensaje(null);
@@ -197,8 +198,8 @@ function App() {
             />
             
             <div className="text-base sm:text-lg mb-2 w-full">
-              <div className="text-2xl sm:text-3xl tracking-widest font-bold mb-2 break-words">
-                {palabraAdivinada.join(" ")}
+              <div className="text-2xl sm:text-3xl tracking-widest font-bold mb-2 break-words" style={{ letterSpacing: "0.3em" }}>
+                {palabraAdivinada.join("")}
               </div>
               <label htmlFor="adivina" className="block mb-2 text-gray-700">
                 Adivina una letra:
