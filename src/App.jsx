@@ -23,11 +23,17 @@ function App() {
     setLetrasIngresadas(new Set());
     setMensaje(null);
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      comprobar();
+    }
+  };
 
   useEffect(() => {
     if (pantalla === "juego") {
       iniciar();
     }
+
   }, [pantalla]);
 
   const comprobar = () => {
@@ -42,9 +48,7 @@ function App() {
       return;
     }
 
-    const nuevasLetras = new Set(letrasIngresadas);
-    nuevasLetras.add(letra);
-    setLetrasIngresadas(nuevasLetras);
+    setLetrasIngresadas(prev => new Set(prev).add(letra));
 
     let acierto = false;
     const nuevaPalabra = [...palabraAdivinada];
@@ -64,16 +68,16 @@ function App() {
   useEffect(() => {
     if (palabraAdivinada.length > 0 && !palabraAdivinada.includes("_")) {
       setMensaje({ tipo: "ganar", texto: "¡Felicidades, ganaste!" });
-      
+
     }
     if (vidas === 0) {
       setMensaje({
         tipo: "perder",
         texto: `Perdiste. La palabra era "${palabraSecreta}".`,
       });
-      
+
     }
-  }, [palabraAdivinada, vidas,palabraSecreta]);
+  }, [palabraAdivinada, vidas, palabraSecreta]);
 
 
   // Dibujo del ahorcado
@@ -94,7 +98,7 @@ function App() {
     ctx.fillStyle = "#999292";
     ctx.fillRect(0, 0, w, h);
 
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "blue";
     ctx.fillRect(w * 0.05, h * 0.95 - 20, w * 0.3, 20);
     ctx.fillRect(w * 0.2, h * 0.25, w * 0.03, h * 0.7);
     ctx.fillRect(w * 0.2, h * 0.25, w * 0.3, h * 0.03);
@@ -156,6 +160,26 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+  const obtenerLetrasClasificadas = () => {
+    const acertadas = new Set();
+    const fallidas = new Set();
+    const palabra = palabraSecreta.split("");
+
+    letrasIngresadas.forEach(letra => {
+      if (palabra.includes(letra)) {
+        acertadas.add(letra);
+      } else {
+        fallidas.add(letra);
+      }
+    });
+
+    return {
+      acertadas: Array.from(acertadas).sort(),
+      fallidas: Array.from(fallidas).sort(),
+    };
+  };
+
   return (
     <>
 
@@ -182,6 +206,26 @@ function App() {
           </section>
         ) : (
           <section className="flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full ">
+            {pantalla === "juego" && palabraSecreta && (
+                <div className="mt-3 w-full max-w-md p-2 border rounded-lg shadow-inner bg-white/10">
+                    <h3 className="text-xl font-bold mb-2">Letras Usadas</h3>
+                    {(() => {
+                        const { acertadas, fallidas } = obtenerLetrasClasificadas();
+                        return (
+                            <div className="flex justify-around text-lg">
+                                <div>
+                                    <p className="font-semibold text-green-400">Acertadas:</p>
+                                    <p className="break-all">{acertadas.join(", ")}</p>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-red-400">Fallidas:</p>
+                                    <p className="break-all">{fallidas.join(", ")}</p>
+                                </div>
+                            </div>
+                        );
+                    })()}
+                </div>
+            )}
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`absolute top-1 right-1 md:top-4 md:right-4 px-3 py-1 border rounded-md text-sm font-semibold transition ${darkMode
@@ -196,12 +240,12 @@ function App() {
 
               className="w-[90%] max-w-md aspect-[5/4] border border-gray-300 rounded-lg bg-gray-500 mb-2 w-full max-w-md p-2 mt-4"
             />
-            
+
             <div className="text-base sm:text-lg mb-2 w-full">
               <div className="text-2xl sm:text-3xl tracking-widest font-bold mb-2 break-words" style={{ letterSpacing: "0.3em" }}>
                 {palabraAdivinada.join("")}
               </div>
-              <label htmlFor="adivina" className="block mb-2 text-gray-700">
+              <label htmlFor="adivina" className="block mb-2 text-gray-500">
                 Adivina una letra:
               </label>
               <input
@@ -210,6 +254,7 @@ function App() {
                 maxLength={1}
                 value={inputLetra}
                 onChange={(e) => setInputLetra(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="h-10 w-12 sm:w-14 text-center text-2xl rounded-xl border-2 border-blue-500 bg-blue-400 focus:border-blue-400 focus:outline-none mb-2"
               />
               <button
@@ -218,6 +263,7 @@ function App() {
               >
                 ¡Adivinar!
               </button>
+              
               {/* Barra de vidas */}
               <div className="bg-gray-300 rounded-full h-3 mt-3 overflow-hidden">
                 <div
@@ -235,49 +281,48 @@ function App() {
               Volver al inicio
             </button>
             {/* Mensaje de ganar o perder */}
-          {mensaje && (
-            <div
-              className={`fixed inset-0 flex items-center justify-center bg-black/60 z-50 transition-all`}
-            >
+            {mensaje && (
               <div
-                className={`p-6 rounded-2xl text-center shadow-lg ${
-                  mensaje.tipo === "ganar"
+                className={`fixed inset-0 flex items-center justify-center bg-black/60 z-50 transition-all`}
+              >
+                <div
+                  className={`p-6 rounded-2xl text-center shadow-lg ${mensaje.tipo === "ganar"
                     ? "bg-green-500 text-white"
                     : "bg-red-500 text-white"
-                }`}
-              >
-                <h2 className="text-2xl font-bold mb-4">{mensaje.texto}</h2>
-              {mensaje.tipo === "error" && ( 
-                  <button
-                  onClick={() => setMensaje(null)}
-                  className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                    }`}
                 >
-                  Cerrar
-                </button>
-              )} 
-              {mensaje.tipo === "ganar" && ( 
-                  <button
-                  onClick={iniciar }
-                  className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
-                >
-                  jugar de nuevo
-                </button>
-              )} 
-              {mensaje.tipo === "perder" && ( 
-                  <button
-                  onClick={iniciar }
-                  className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
-                >
-                  jugar de nuevo
-                </button>
-              )} 
-                
+                  <h2 className="text-2xl font-bold mb-4">{mensaje.texto}</h2>
+                  {mensaje.tipo === "error" && (
+                    <button
+                      onClick={() => setMensaje(null)}
+                      className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                    >
+                      Cerrar
+                    </button>
+                  )}
+                  {mensaje.tipo === "ganar" && (
+                    <button
+                      onClick={iniciar}
+                      className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                    >
+                      jugar de nuevo
+                    </button>
+                  )}
+                  {mensaje.tipo === "perder" && (
+                    <button
+                      onClick={iniciar}
+                      className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                    >
+                      jugar de nuevo
+                    </button>
+                  )}
+
+                </div>
               </div>
-            </div>
-          )}
+            )}
           </section>
         )}
-        
+
       </div>
     </>
   )
