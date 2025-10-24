@@ -37,6 +37,9 @@ function App() {
   }, [pantalla]);
 
   const comprobar = () => {
+    if (juegoTerminado || (mensaje && (mensaje.tipo === "ganar" || mensaje.tipo === "perder"))) {
+      return; // Detiene la ejecución si el juego ha finalizado.
+    }
     const letra = inputLetra.trim().toLowerCase();
     if (letra === "" || !/^[a-zñ]$/.test(letra)) {
       setMensaje({ tipo: "error", texto: "Por favor, ingresa una letra válida." });
@@ -64,6 +67,8 @@ function App() {
     if (!acierto) setVidas((v) => v - 1);
     setInputLetra("");
   };
+
+  const juegoTerminado = vidas === 0 || !palabraAdivinada.includes("_");
 
   useEffect(() => {
     if (palabraAdivinada.length > 0 && !palabraAdivinada.includes("_")) {
@@ -207,24 +212,24 @@ function App() {
         ) : (
           <section className="flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full ">
             {pantalla === "juego" && palabraSecreta && (
-                <div className="mt-3 w-full max-w-md p-2 border rounded-lg shadow-inner bg-white/10">
-                    <h3 className="text-xl font-bold mb-2">Letras Usadas</h3>
-                    {(() => {
-                        const { acertadas, fallidas } = obtenerLetrasClasificadas();
-                        return (
-                            <div className="flex justify-around text-lg">
-                                <div>
-                                    <p className="font-semibold text-green-400">Acertadas:</p>
-                                    <p className="break-all">{acertadas.join(", ")}</p>
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-red-400">Fallidas:</p>
-                                    <p className="break-all">{fallidas.join(", ")}</p>
-                                </div>
-                            </div>
-                        );
-                    })()}
-                </div>
+              <div className="mt-3 w-full max-w-md p-2 border rounded-lg shadow-inner bg-white/10">
+                <h3 className="text-xl font-bold mb-2">Letras Usadas</h3>
+                {(() => {
+                  const { acertadas, fallidas } = obtenerLetrasClasificadas();
+                  return (
+                    <div className="flex justify-around text-lg">
+                      <div>
+                        <p className="font-semibold text-green-400">Acertadas:</p>
+                        <p className="break-all">{acertadas.join(", ")}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-red-400">Fallidas:</p>
+                        <p className="break-all">{fallidas.join(", ")}</p>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
             )}
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -255,15 +260,17 @@ function App() {
                 value={inputLetra}
                 onChange={(e) => setInputLetra(e.target.value)}
                 onKeyDown={handleKeyDown}
+                disabled={juegoTerminado || (mensaje && mensaje.tipo === 'error')}
                 className="h-10 w-12 sm:w-14 text-center text-2xl rounded-xl border-2 border-blue-500 bg-blue-400 focus:border-blue-400 focus:outline-none mb-2"
               />
               <button
                 onClick={comprobar}
+                disabled={juegoTerminado || (mensaje && mensaje.tipo === 'error')}
                 className="block mx-auto mt-2 px-3 py-2 bg-indigo-600 text-white rounded-lg text-lg hover:bg-indigo-700 transition w-1/2 sm:w-auto"
               >
                 ¡Adivinar!
               </button>
-              
+
               {/* Barra de vidas */}
               <div className="bg-gray-300 rounded-full h-3 mt-3 overflow-hidden">
                 <div
@@ -301,20 +308,27 @@ function App() {
                     </button>
                   )}
                   {mensaje.tipo === "ganar" && (
-                    <button
-                      onClick={iniciar}
-                      className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
-                    >
-                      jugar de nuevo
-                    </button>
+                    <div>
+                      
+                      <button
+                        onClick={iniciar}
+                        className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                      >
+                        jugar de nuevo
+                      </button>
+                    </div>
+
                   )}
                   {mensaje.tipo === "perder" && (
-                    <button
-                      onClick={iniciar}
-                      className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
-                    >
-                      jugar de nuevo
-                    </button>
+                    <div>
+                      
+                      <button
+                        onClick={iniciar}
+                        className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
+                      >
+                        jugar de nuevo
+                      </button>
+                    </div>
                   )}
 
                 </div>
