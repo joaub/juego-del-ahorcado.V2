@@ -309,7 +309,12 @@ function App() {
                   )}
                   {mensaje.tipo === "ganar" && (
                     <div>
-                      
+                      <button
+                        onClick={() => setMensaje(null)}
+                        className="absolute top-60 right-133 px-2 bg-gray-200 text-black rounded-lg hover:bg-gray-200 transition"
+                      >
+                        X
+                      </button>
                       <button
                         onClick={iniciar}
                         className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
@@ -321,7 +326,12 @@ function App() {
                   )}
                   {mensaje.tipo === "perder" && (
                     <div>
-                      
+                      <button
+                        onClick={() => setMensaje(null)}
+                        className="absolute top-60 right-133 px-2 bg-gray-200 text-black rounded-lg hover:bg-gray-200 transition"
+                      >
+                        X
+                      </button>
                       <button
                         onClick={iniciar}
                         className="mt-4 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition"
