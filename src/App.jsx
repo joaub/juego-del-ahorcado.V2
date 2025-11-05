@@ -121,30 +121,35 @@ function App() {
     }
     if (vidas <= 4) {
       ctx.beginPath();
+      ctx.lineWidth = 10;
       ctx.moveTo(w * 0.51, h * 0.44);
       ctx.lineTo(w * 0.51, h * 0.68);
       ctx.stroke();
     }
     if (vidas <= 3) {
       ctx.beginPath();
+      ctx.lineWidth = 6;
       ctx.moveTo(w * 0.51, h * 0.48);
       ctx.lineTo(w * 0.45, h * 0.60);
       ctx.stroke();
     }
     if (vidas <= 2) {
       ctx.beginPath();
+      ctx.lineWidth = 6;
       ctx.moveTo(w * 0.51, h * 0.48);
       ctx.lineTo(w * 0.57, h * 0.60);
       ctx.stroke();
     }
     if (vidas <= 1) {
       ctx.beginPath();
+      ctx.lineWidth = 6;
       ctx.moveTo(w * 0.51, h * 0.68);
       ctx.lineTo(w * 0.45, h * 0.80);
       ctx.stroke();
     }
     if (vidas === 0) {
       ctx.beginPath();
+      ctx.lineWidth = 6;
       ctx.moveTo(w * 0.51, h * 0.68);
       ctx.lineTo(w * 0.57, h * 0.80);
       ctx.stroke();
@@ -311,7 +316,7 @@ function App() {
                     <div>
                       <button
                         onClick={() => setMensaje(null)}
-                        className="absolute top-60 right-133 px-2 bg-gray-200 text-black rounded-lg hover:bg-gray-200 transition"
+                        className="absolute top-60 right-147 px-2 bg-gray-200 text-black rounded-lg hover:bg-gray-200 transition"
                       >
                         X
                       </button>
