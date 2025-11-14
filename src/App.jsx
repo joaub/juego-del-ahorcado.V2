@@ -36,20 +36,18 @@ function App() {
 
   }, [pantalla]);
 
-  const comprobar = () => {
+  const comprobar = (letraParam) => {
     if (juegoTerminado || (mensaje && (mensaje.tipo === "ganar" || mensaje.tipo === "perder"))) {
       return; // Detiene la ejecución si el juego ha finalizado.
     }
-    const letra = inputLetra.trim().toLowerCase();
+    const letra = (letraParam || inputLetra.trim().toLowerCase());
     if (letra === "" || !/^[a-zñ]$/.test(letra)) {
       setMensaje({ tipo: "error", texto: "Por favor, ingresa una letra válida." });
       return;
     }
 
-    if (letrasIngresadas.has(letra)) {
-      setMensaje({ tipo: "error", texto: `Ya has ingresado la letra "${letra}".` });
-      return;
-    }
+    if (letrasIngresadas.has(letra)) return;
+    
 
     setLetrasIngresadas(prev => new Set(prev).add(letra));
 
@@ -171,24 +169,7 @@ function App() {
   }, []);
 
 
-  const obtenerLetrasClasificadas = () => {
-    const acertadas = new Set();
-    const fallidas = new Set();
-    const palabra = palabraSecreta.split("");
 
-    letrasIngresadas.forEach(letra => {
-      if (palabra.includes(letra)) {
-        acertadas.add(letra);
-      } else {
-        fallidas.add(letra);
-      }
-    });
-
-    return {
-      acertadas: Array.from(acertadas).sort(),
-      fallidas: Array.from(fallidas).sort(),
-    };
-  };
 
   return (
     <>
@@ -216,26 +197,7 @@ function App() {
           </section>
         ) : (
           <section className="flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full ">
-            {pantalla === "juego" && palabraSecreta && (
-              <div className="mt-3 w-full max-w-md p-2 border rounded-lg shadow-inner bg-white/10">
-                <h3 className="text-xl font-bold mb-2">Letras Usadas</h3>
-                {(() => {
-                  const { acertadas, fallidas } = obtenerLetrasClasificadas();
-                  return (
-                    <div className="flex justify-around text-lg">
-                      <div>
-                        <p className="font-semibold text-green-400">Acertadas:</p>
-                        <p className="break-all">{acertadas.join(", ")}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-red-400">Fallidas:</p>
-                        <p className="break-all">{fallidas.join(", ")}</p>
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
-            )}
+            <h1 className="text-3xl font-bold mb-6 mt-3 text-center">Juego del ahorcado</h1>
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`absolute top-1 right-1 md:top-4 md:right-4 px-3 py-1 border rounded-md text-sm font-semibold transition ${darkMode
@@ -275,6 +237,28 @@ function App() {
               >
                 ¡Adivinar!
               </button>
+              {/* TECLADO EN PANTALLA */}
+              <div className="grid grid-cols-9 gap-2 max-w-md mx-auto mt-4">
+                {"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("").map((letra) => (
+                  <button
+                    key={letra}
+                    onClick={() => {
+                      setInputLetra(letra.toLowerCase());
+                      comprobar(letra.toLowerCase());
+                    }}
+                    disabled={letrasIngresadas.has(letra.toLowerCase()) || juegoTerminado}
+                    className={`
+                        p-2 rounded-lg font-bold border 
+                        ${letrasIngresadas.has(letra.toLowerCase())
+                        ? palabraSecreta.includes(letra.toLowerCase())
+                          ? "bg-green-500 text-white border-green-700 cursor-not-allowed"
+                          : "bg-red-500 text-white border-red-700 cursor-not-allowed"
+                        : "bg-gray-400 hover:bg-gray-500 dark:bg-gray-800 dark:hover:bg-gray-600"}
+                  `}>
+                    {letra}
+                  </button>
+                ))}
+              </div>
 
               {/* Barra de vidas */}
               <div className="bg-gray-300 rounded-full h-3 mt-3 overflow-hidden">
