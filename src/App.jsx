@@ -47,7 +47,7 @@ function App() {
     }
 
     if (letrasIngresadas.has(letra)) return;
-    
+
 
     setLetrasIngresadas(prev => new Set(prev).add(letra));
 
@@ -231,15 +231,15 @@ function App() {
                 className="h-10 w-12 sm:w-14 text-center text-2xl rounded-xl border-2 border-blue-500 bg-blue-400 focus:border-blue-400 focus:outline-none mb-2"
               />
               <button
-                onClick={comprobar}
-                disabled={juegoTerminado || (mensaje && mensaje.tipo === 'error')}
+                onClick={() => comprobar()}
+                disabled={juegoTerminado}
                 className="block mx-auto mt-2 px-3 py-2 bg-indigo-600 text-white rounded-lg text-lg hover:bg-indigo-700 transition w-1/2 sm:w-auto"
               >
                 ¡Adivinar!
               </button>
               {/* TECLADO EN PANTALLA */}
               <div className="grid grid-cols-9 gap-2 max-w-md mx-auto mt-4">
-                {"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("").map((letra) => (
+                {"QWERTYUIOPASDFGHJKLÑZXCVBNM".split("").map((letra) => (
                   <button
                     key={letra}
                     onClick={() => {
