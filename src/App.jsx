@@ -12,10 +12,15 @@ function App() {
   const [palabraAdivinada, setPalabraAdivinada] = useState([]);
   const [letrasIngresadas, setLetrasIngresadas] = useState(new Set());
   const [inputLetra, setInputLetra] = useState("");
+  const [categoria, setCategoria] = useState(null);
 
   // Inicializa el juego
   const iniciar = () => {
-    const palabra = palabras[Math.floor(Math.random() * palabras.length)].toLowerCase();
+    if (!categoria) return;
+
+    const lista = palabras[categoria];
+    const palabra = lista[Math.floor(Math.random() * lista.length)].toLowerCase();
+
     setPalabraSecreta(palabra);
     const palabraVisible = palabra.split("").map(c => (c === " " ? " " : "_"));
     setPalabraAdivinada(palabraVisible);
@@ -23,6 +28,7 @@ function App() {
     setLetrasIngresadas(new Set());
     setMensaje(null);
   };
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       comprobar();
@@ -34,7 +40,7 @@ function App() {
       iniciar();
     }
 
-  }, [pantalla]);
+  }, [pantalla,categoria]);
 
   const comprobar = (letraParam) => {
     if (juegoTerminado || (mensaje && (mensaje.tipo === "ganar" || mensaje.tipo === "perder"))) {
@@ -179,6 +185,22 @@ function App() {
         {pantalla === "inicio" ? (
           <section className='flex flex-col items-center text-center p-2 w-full'>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 mt-3 text-center p-4">Juego del ahorcado</h1>
+            <h2 className="text-xl font-semibold mb-3">Elegí una categoría:</h2>
+
+            <div className="grid grid-cols-1 gap-3 mb-6 w-full max-w-xs">
+              {Object.keys(palabras).map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setCategoria(cat);
+                    setPantalla("juego");
+                  }}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+                  {cat.toUpperCase()}
+                </button>
+              ))}
+            </div>
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`absolute top-1 right-1 md:top-4 md:right-4 px-2 py-1 border rounded-md text-sm font-semibold transition ${darkMode
@@ -188,12 +210,7 @@ function App() {
             >
               {darkMode ? "☀️ Claro" : "🌙 Oscuro"}
             </button>
-            <button
-              onClick={() => setPantalla("juego")}
-              className="drop-shadow-md hover:drop-shadow-lg px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white text-xl rounded-lg transition w-3/4 sm:w-auto"
-            >
-              Iniciar Juego
-            </button>
+            
           </section>
         ) : (
           <section className="flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full ">

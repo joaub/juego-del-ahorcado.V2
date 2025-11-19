@@ -1,38 +1,60 @@
-export const palabras = [
-    'javascript', 
-    'react', 'Boca juniors','Real Madrid',
-    'programacion', 'desarrollo',
-    'computadora',"Barcelona",
-    'teclado',
-    'monitor',"River plate",
-    "argentina",
-    "independiente","Godoy cruz",
-    "Independiente Rivadavia",
-    "san martin","gimnasia y esgrima de mendoza",
-    "san lorenzo","rosario central",
-    "tigre","banfield",
-    "arsenal","newells",
-    "colon","gimnasia",
-    "huracan","velez",
-    "elefante","murcielago",
-    "avion",
-    "tren","racing",
-    "futbol",
-    "pelicula","jazz",
-    "guitarra","piano",
-    "violin","saxofon",
-    "trompeta", "flamenco",
-    "cocodrilo",
-    "hipopotamo", "jirafa",
-    "camello","delfin",
-    "burbuja","estrella",
-    "planeta","cometa",
-    "galaxia",
-    "universo","constelacion",
-    "astronauta",
-    "cohete","saturno",
-    "otorrinolaringólogo",
-    "electroencefalografia","caleidoscopio",
-    "inconstitucionalmente",
-    "anticonstitucionalmente"
-];
+export const palabras = {
+  animales: [
+    "perro", "gato", "elefante", "jirafa", "canguro",
+    "delfin", "ballena", "leon", "tigre", "ardilla","loro","aguila",
+    "serpiente","camaleon","hipopotamo","rinoceronte","zorro","mapache"
+  ],
+
+  comidas: [
+    "pizza", "milanesa", "hamburguesa", "helado",
+    "ñoquis", "ravioles", "tortilla", "empanada","asado", "pastel de papa"
+  ],
+
+  futbol: [
+    "river plate",
+    "boca juniors",
+    "san lorenzo",
+    "racing",
+    "independiente",
+    "rosario central",
+    "newells",
+    "estudiantes",
+    "gimnasia",
+    "velez",
+    "argentinos juniors",
+    "Gimnasia de mendoza",
+    "talleres de cordoba",
+    "colon de santa fe",
+    "independiente rivadavia",
+
+    "barcelona",
+    "real madrid",
+    "manchester united",
+    "manchester city",
+    "chelsea",
+    "juventus",
+    "inter",
+    "milan",
+    "paris saint germain",
+    "ajax","roma",
+    "napoli",
+    "bayern munich",
+    "liverpool",
+    "arsenal",
+    "atletico de madrid",
+    "tottenham"
+  ],
+
+  dificil: [
+    "electrocardiograma",
+    "hipopotamo",
+    "jurisprudencia",
+    "murcielago",
+    "microorganismo",
+    "otorrinolaringologo",
+    "paralelepipedo",
+    "anticonstitucionalmente",
+    "desoxirribonucleico",
+    "esternocleidomastoideo"
+  ]
+};
