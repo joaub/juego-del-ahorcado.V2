@@ -14,6 +14,10 @@ function App() {
   const [inputLetra, setInputLetra] = useState("");
   const [categoria, setCategoria] = useState(null);
 
+
+  //sonidos
+  const sonidoAcierto = new Audio('public/acierto.mp3');
+
   // Inicializa el juego
   const iniciar = () => {
     if (!categoria) return;
@@ -40,7 +44,7 @@ function App() {
       iniciar();
     }
 
-  }, [pantalla,categoria]);
+  }, [pantalla, categoria]);
 
   const comprobar = (letraParam) => {
     if (juegoTerminado || (mensaje && (mensaje.tipo === "ganar" || mensaje.tipo === "perder"))) {
@@ -63,6 +67,8 @@ function App() {
     for (let i = 0; i < palabraSecreta.length; i++) {
       if (palabraSecreta[i] === letra) {
         nuevaPalabra[i] = letra;
+        sonidoAcierto.currentTime = 0;
+        sonidoAcierto.play();
         acierto = true;
       }
     }
@@ -210,7 +216,7 @@ function App() {
             >
               {darkMode ? "☀️ Claro" : "🌙 Oscuro"}
             </button>
-            
+
           </section>
         ) : (
           <section className="flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full ">
