@@ -39,7 +39,19 @@ export const palabras = {
         "liverpool", "arsenal",
         "atletico de madrid", "tottenham",
         "sevilla", "valencia",
-        "porto", "benfica"
+        "porto", "benfica",
+        "borussia dortmund",
+        "bayer leverkusen",
+        "athletic bilbao",
+        "sporting lisboa",
+        "aston villa",
+        "galatasaray",
+        "olympique marsella",
+        "olimpia de paraguay",
+        "universidad de chile",
+        "universitario de deportes",
+        "deportivo la coruña",
+        "cruzeiro"
     ],
     paises: [
         "argentina", "brasil", "chile", "uruguay", "paraguay",
@@ -50,7 +62,7 @@ export const palabras = {
         "belgica", "suiza", "austria", "polonia", "grecia",
         "turquia", "rusia", "china", "japon", "corea del sur",
         "india", "australia", "nueva zelanda", "sudafrica", "egipto",
-        "cabo verde", "marruecos", "argelia", "tunez", "libia","sudan",
+        "cabo verde", "marruecos", "argelia", "tunez", "libia", "sudan",
         "etiopia", "kenia", "uganda", "ghana", "nigeria"
     ],
     colores: [
