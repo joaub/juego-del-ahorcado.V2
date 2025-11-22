@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { palabras } from './palabras.js';
 
 function App() {
@@ -17,9 +17,10 @@ function App() {
 
   //sonidos
   const sonidoAcierto = new Audio('public/acierto.mp3');
+  const sonidoError = new Audio('public/incorrecto.mp3');
 
   // Inicializa el juego
-  const iniciar = () => {
+  const iniciar = useCallback(() => {
     if (!categoria) return;
 
     const lista = palabras[categoria];
@@ -31,7 +32,7 @@ function App() {
     setVidas(6);
     setLetrasIngresadas(new Set());
     setMensaje(null);
-  };
+  }, [categoria]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -44,7 +45,7 @@ function App() {
       iniciar();
     }
 
-  }, [pantalla, categoria]);
+  }, [pantalla, iniciar]);
 
   const comprobar = (letraParam) => {
     if (juegoTerminado || (mensaje && (mensaje.tipo === "ganar" || mensaje.tipo === "perder"))) {
@@ -74,7 +75,11 @@ function App() {
     }
 
     setPalabraAdivinada(nuevaPalabra);
-    if (!acierto) setVidas((v) => v - 1);
+    if (!acierto){
+      setVidas((v) => v - 1);
+      sonidoError.currentTime = 0;
+      sonidoError.play();
+    } 
     setInputLetra("");
   };
 
