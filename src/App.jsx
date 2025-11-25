@@ -16,10 +16,10 @@ function App() {
 
 
   //sonidos
-  const sonidoGanar = useRef(new Audio("public/sounds/ganar.mp3"));
-  const sonidoPerder = useRef(new Audio("public/sounds/perder.mp3"));
-  const sonidoAcierto = useRef(new Audio("public/sounds/acierto.mp3"));
-  const sonidoError = useRef(new Audio("public/sounds/incorrecto.mp3"));
+  const sonidoGanar = useRef(new Audio("/sounds/ganar.mp3"));
+  const sonidoPerder = useRef(new Audio("/sounds/perder.mp3"));
+  const sonidoAcierto = useRef(new Audio("/sounds/acierto.mp3"));
+  const sonidoError = useRef(new Audio("/sounds/incorrecto.mp3"));
 
 
   // Habilitar sonidos con el primer click (Chrome autoplay fix)
@@ -226,7 +226,7 @@ function App() {
             <div className="grid grid-cols-1 gap-3 mb-6 w-full max-w-xs">
               {Object.keys(palabras).map(cat => (
                 <button
-                
+
                   key={cat}
                   onClick={() => {
                     habilitarSonidos();
