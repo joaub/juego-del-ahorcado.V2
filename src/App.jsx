@@ -18,6 +18,8 @@ function App() {
   //sonidos
   const sonidoAcierto = new Audio('public/acierto.mp3');
   const sonidoError = new Audio('public/incorrecto.mp3');
+  const sonidoGanar = useRef(new Audio("public/winning.mp3"));
+  const sonidoPerder = useRef(new Audio("public/perder.mp3"));
 
   // Inicializa el juego
   const iniciar = useCallback(() => {
@@ -87,10 +89,14 @@ function App() {
 
   useEffect(() => {
     if (palabraAdivinada.length > 0 && !palabraAdivinada.includes("_")) {
+      sonidoGanar.current.currentTime = 0;
+      sonidoGanar.current.play();
       setMensaje({ tipo: "ganar", texto: "¡Felicidades, ganaste!" });
 
     }
     if (vidas === 0) {
+      sonidoPerder.current.currentTime = 0;
+      sonidoPerder.current.play();
       setMensaje({
         tipo: "perder",
         texto: `Perdiste. La palabra era "${palabraSecreta}".`,
