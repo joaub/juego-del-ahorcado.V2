@@ -16,10 +16,10 @@ function App() {
 
 
   //sonidos
-  const sonidoAcierto = new Audio('public/acierto.mp3');
-  const sonidoError = new Audio('public/incorrecto.mp3');
-  const sonidoGanar = useRef(new Audio("public/winning.mp3"));
-  const sonidoPerder = useRef(new Audio("public/perder.mp3"));
+  const sonidoAcierto = new Audio('public/sounds/acierto.mp3');
+  const sonidoError = new Audio('public/sounds/incorrecto.mp3');
+  const sonidoGanar = useRef(new Audio("public/sounds/winning.mp3"));
+  const sonidoPerder = useRef(new Audio("public/sounds/perder.mp3"));
 
   // Inicializa el juego
   const iniciar = useCallback(() => {

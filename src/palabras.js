@@ -15,7 +15,7 @@ export const palabras = {
         "lasagna", "fideos", "pollo", "pescado", "tacos",
         "ñoquis", "ravioles", "tortilla", "empanada", "asado", "pastel de papa",
         "churrasco", "arepas", "guiso", "budin", "crema catalana",
-        "flan", "pudin", "tarta", "croquetas", "gazpacho", "ratatouille"
+        "flan", "pudin", "tarta", "croquetas", "gazpacho"
     ],
 
     futbol: [
