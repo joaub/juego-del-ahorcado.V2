@@ -16,7 +16,7 @@ function App() {
 
 
   //sonidos
-  const sonidoGanar = useRef(new Audio("/sounds/ganar.mp3"));
+  const sonidoGanar = useRef(new Audio("/sounds/winning.mp3"));
   const sonidoPerder = useRef(new Audio("/sounds/perder.mp3"));
   const sonidoAcierto = useRef(new Audio("/sounds/acierto.mp3"));
   const sonidoError = useRef(new Audio("/sounds/incorrecto.mp3"));
