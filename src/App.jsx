@@ -16,11 +16,30 @@ function App() {
 
 
   //sonidos
-  const sonidoAcierto = new Audio('public/sounds/acierto.mp3');
-  const sonidoError = new Audio('public/sounds/incorrecto.mp3');
-  const sonidoGanar = useRef(new Audio("public/sounds/winning.mp3"));
+  const sonidoGanar = useRef(new Audio("public/sounds/ganar.mp3"));
   const sonidoPerder = useRef(new Audio("public/sounds/perder.mp3"));
+  const sonidoAcierto = useRef(new Audio("public/sounds/acierto.mp3"));
+  const sonidoError = useRef(new Audio("public/sounds/incorrecto.mp3"));
 
+
+  // Habilitar sonidos con el primer click (Chrome autoplay fix)
+  const habilitarSonidos = () => {
+    const sonidos = [
+      sonidoGanar.current,
+      sonidoPerder.current,
+      sonidoAcierto.current,
+      sonidoError.current,
+    ];
+
+    sonidos.forEach((audio) => {
+      audio.play()
+        .then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        })
+        .catch(() => { });
+    });
+  };
   // Inicializa el juego
   const iniciar = useCallback(() => {
     if (!categoria) return;
@@ -70,18 +89,18 @@ function App() {
     for (let i = 0; i < palabraSecreta.length; i++) {
       if (palabraSecreta[i] === letra) {
         nuevaPalabra[i] = letra;
-        sonidoAcierto.currentTime = 0;
-        sonidoAcierto.play();
+        sonidoAcierto.current.currentTime = 0;
+        sonidoAcierto.current.play();
         acierto = true;
       }
     }
 
     setPalabraAdivinada(nuevaPalabra);
-    if (!acierto){
+    if (!acierto) {
       setVidas((v) => v - 1);
-      sonidoError.currentTime = 0;
-      sonidoError.play();
-    } 
+      sonidoError.current.currentTime = 0;
+      sonidoError.current.play();
+    }
     setInputLetra("");
   };
 
@@ -207,8 +226,10 @@ function App() {
             <div className="grid grid-cols-1 gap-3 mb-6 w-full max-w-xs">
               {Object.keys(palabras).map(cat => (
                 <button
+                
                   key={cat}
                   onClick={() => {
+                    habilitarSonidos();
                     setCategoria(cat);
                     setPantalla("juego");
                   }}
