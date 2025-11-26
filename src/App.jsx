@@ -1,10 +1,22 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { palabras } from './palabras.js';
 
+function useDarkMode(defaultMode = false) {
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode !== null ? JSON.parse(savedMode) : defaultMode;
+  })
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    document.documentElement.classList.toggle('dark', darkMode);
+  },[darkMode]);
+  return [darkMode, setDarkMode];
+}
+
 function App() {
 
   const [mensaje, setMensaje] = useState(null);
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useDarkMode(false);
   const [pantalla, setPantalla] = useState("inicio");
   const [vidas, setVidas] = useState(6);
   const canvasRef = useRef(null);
