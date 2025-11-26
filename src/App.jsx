@@ -13,6 +13,7 @@ function App() {
   const [letrasIngresadas, setLetrasIngresadas] = useState(new Set());
   const [inputLetra, setInputLetra] = useState("");
   const [categoria, setCategoria] = useState(null);
+  const [mute, setMute] = useState(false);
 
 
   //sonidos
@@ -30,6 +31,10 @@ function App() {
       sonidoAcierto.current,
       sonidoError.current,
     ];
+
+
+
+
 
     sonidos.forEach((audio) => {
       audio.play()
@@ -90,6 +95,7 @@ function App() {
       if (palabraSecreta[i] === letra) {
         nuevaPalabra[i] = letra;
         sonidoAcierto.current.currentTime = 0;
+        sonidoAcierto.current.volume = mute ? 0 : 1;
         sonidoAcierto.current.play();
         acierto = true;
       }
@@ -99,6 +105,7 @@ function App() {
     if (!acierto) {
       setVidas((v) => v - 1);
       sonidoError.current.currentTime = 0;
+      sonidoError.current.volume = mute ? 0 : 1;
       sonidoError.current.play();
     }
     setInputLetra("");
@@ -109,12 +116,14 @@ function App() {
   useEffect(() => {
     if (palabraAdivinada.length > 0 && !palabraAdivinada.includes("_")) {
       sonidoGanar.current.currentTime = 0;
+      sonidoGanar.current.volume = mute ? 0 : 1;
       sonidoGanar.current.play();
       setMensaje({ tipo: "ganar", texto: "¡Felicidades, ganaste!" });
 
     }
     if (vidas === 0) {
       sonidoPerder.current.currentTime = 0;
+      sonidoPerder.current.volume = mute ? 0 : 1;
       sonidoPerder.current.play();
       setMensaje({
         tipo: "perder",
@@ -122,7 +131,7 @@ function App() {
       });
 
     }
-  }, [palabraAdivinada, vidas, palabraSecreta]);
+  }, [palabraAdivinada, vidas, palabraSecreta,mute]);
 
 
   // Dibujo del ahorcado
@@ -261,6 +270,13 @@ function App() {
                 }`}
             >
               {darkMode ? "☀️ Claro" : "🌙 Oscuro"}
+            </button>
+            <button
+              onClick={() => setMute(!mute)}
+              className="absolute top-15 right-5 px-2 py-1 border rounded-md text-sm font-semibold 
+              bg-gray-200 dark:bg-gray-700 dark:text-gray-200"
+            >
+              {mute ? "🔇" : "🔊"}
             </button>
             <canvas
               ref={canvasRef}
