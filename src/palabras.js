@@ -113,5 +113,21 @@ export const palabras = {
         "metamorfosis",
         "hiperrealismo",
         "cristalizacion"
+    ],
+    personajes: [
+        "mario bros", "luigi", "peach", "yoshi", "toad",
+        "link", "zelda", "ganondorf", "samus aran", "pikachu",
+        "ash ketchum", "walter white", "jesse pinkman", "homero simpson",
+        "bart simpson", "lisa simpson", "marge simpson", "sheldon cooper",
+        "tony stark", "steve rogers", "bruce banner", "thor odinson",
+        "natasha romanoff", "clark kent", "diana prince", "barry allen",
+        "arthur curry", "harley quinn", "joker", "catwoman","merlina addams",
+        "Ragnar Lothbrok", "Lagertha", "Athelstan", "Floki", "Bjorn Ironside",
+        "harry potter", "hermione granger", "ron weasley", "albus dumbledore",
+        "goku", "vegeta", "piccolo", "frieza", "cell",
+        "naruto uzumaki", "sasuke uchiha", "sakura haruno", "kakashi hatake",
+        "luffy", "zoro", "nami", "sanji", "chopper",
+        "light yagami", "ryuk", "misa amane", "near", "mello","superman",
+        "batman","deadpool","wolverine","profesor x","magneto"
     ]
 };
